@@ -1,14 +1,13 @@
 <?php 
     require_once "../api/lib/db.php";
     
-    class UserModel{
+    class UserModel extends DB{
         
         public function getUser($id = null)
         {
             include "../api/services/user/lib/queries.php";
 
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_USER);
             $stmt->bindParam(":id", $id);
             $stmt->execute();
@@ -24,8 +23,7 @@
         { 
             include "../api/services/user/lib/queries.php";
 
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_USERS);
             $stmt->execute();
 
@@ -40,8 +38,7 @@
         {
             include "../api/services/user/lib/queries.php";
             
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_EXISTING_USER);
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":email", $data->email);
@@ -58,8 +55,7 @@
         {
             include "../api/services/user/lib/queries.php"; 
             
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($CREATE_USER);
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":password", $data->password);
@@ -72,7 +68,6 @@
                 return array("success" => false);
             }
         }
-
     }
 
 

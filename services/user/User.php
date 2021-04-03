@@ -1,5 +1,7 @@
 <?php 
     include_once "model/getUser.php";
+    include_once "model/login.php";
+    require_once "../api/core/jwt.php";
 
     class User{
         
@@ -25,6 +27,31 @@
             } else {
                 echo json_encode($isUserExist);
             }   
+        }
+
+        public function loginController($data)
+        {
+            $user = new LoginModel();
+            $jwt = null;
+            
+            if($data->type == 'email'){
+                $response = $user->loginUserByEmail($data);
+                if($response["success"] == true){
+                    $jwt = new JWTTokenizer(json_encode($response['response']));
+                    echo json_encode(array("success" => $response['success'], "jwt" => $jwt->generateJWT()));
+                } else {
+                    echo json_encode($response);
+                }
+
+            } elseif($data->type == 'phone'){
+                $response = $user->loginUserByPhone($data);
+                if($response["success"] == true){
+                    $jwt = new JWTTokenizer(json_encode($response['response']));
+                    echo json_encode(array("success" => $response['success'], "jwt" => $jwt->generateJWT()));
+                } else {
+                    echo json_encode($response);
+                }
+            }
         }
     }
 
