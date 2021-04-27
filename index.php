@@ -3,15 +3,16 @@
     include_once 'core/router.php';
     include_once 'services/user/User.php';
     include_once 'core/jwt.php';
+    include_once 'lib/endpoints.php';
+    include_once 'classes/cinput.php';
 
     //ALWAYS INCLUDE FOR CORS CONFIGURATION
     include_once 'lib/http-config.php';
 
     
-    if(!$_GET['url'] == 'login'){
+    if(!in_array(cinput::url($_GET['url']), $auth_endpoints)){
         $jwt = new JWTTokenizer(null);
         $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
-        
         if(!$response["success"]){
             echo json_encode(array("success" => false, "error" => $response["error"]));
             exit;
@@ -31,6 +32,13 @@
         if($req){
             $user = new User();
             $user->usersController();
+        }
+    });
+
+    $app->route(Request::get("user"), function($req){
+        if($req){
+            $user = new User();
+            $user->getLoggedInUserController();
         }
     });
 

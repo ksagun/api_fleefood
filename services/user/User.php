@@ -2,12 +2,14 @@
     include_once "model/getUser.php";
     include_once "model/login.php";
     require_once "../api/core/jwt.php";
+    require_once "../api/classes/cinput.php";
 
     class User{
         
         public function userController($id = null)
         {
             $user = new UserModel();
+            $id = cinput::input($id);
             echo json_encode($user->getUser($id));
         }
 
@@ -20,6 +22,7 @@
         public function createUserController($data)
         {
             $user = new UserModel();
+
             $isUserExist = $user->getExistingUser($data);
 
             if($isUserExist['success']){
@@ -27,6 +30,15 @@
             } else {
                 echo json_encode($isUserExist);
             }   
+        }
+
+        public function getLoggedInUserController()
+        {
+            $user = new UserModel();
+            $jwt = null;
+            $jwt = new JWTTokenizer(null);
+            $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
+            echo json_encode($user->getLoggedInUser($response["payload"]->email));
         }
 
         public function loginController($data)
@@ -51,6 +63,8 @@
                 } else {
                     echo json_encode($response);
                 }
+            } else {
+                http_response_code(401);
             }
         }
     }

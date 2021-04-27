@@ -51,6 +51,23 @@
             }
         }
 
+        public function getLoggedInUser($email = null)
+        {
+            include "../api/services/user/lib/queries.php";
+
+            $conn = $this->connection();
+            $stmt = $conn->prepare($GET_LOGGED_USER_BY_EMAIL);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0){
+                return array("success" => true, "response" => $stmt->fetchAll(PDO::FETCH_ASSOC));
+            } else {
+                return array("success" => false);
+            }
+
+        }
+
         public function createUser($data = null)
         {
             include "../api/services/user/lib/queries.php"; 
