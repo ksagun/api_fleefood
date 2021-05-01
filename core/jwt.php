@@ -16,7 +16,7 @@
         {
             $payload = array(
                 "iat" => time(),
-                "exp" => time() + (60 * 60),
+                "exp" => time() + (60 * 60 * 60 * 24),
                 "iss" => "http://localhost/fleefood/api",
                 "data"=> array(
                     "email" => $this->data[0]->email,

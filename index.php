@@ -9,15 +9,16 @@
     //ALWAYS INCLUDE FOR CORS CONFIGURATION
     include_once 'lib/http-config.php';
 
-    
     if(!in_array(cinput::url($_GET['url']), $auth_endpoints)){
         $jwt = new JWTTokenizer(null);
+    
         $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
         if(!$response["success"]){
             echo json_encode(array("success" => false, "error" => $response["error"]));
             exit;
         }
     }
+   
     
     $app = new Router();
     
@@ -35,7 +36,7 @@
         }
     });
 
-    $app->route(Request::get("user"), function($req){
+    $app->route(Request::get("agent"), function($req){
         if($req){
             $user = new User();
             $user->getLoggedInUserController();
