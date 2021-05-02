@@ -9,7 +9,7 @@
 
         public function __construct($data){
             $this->data = json_decode($data);
-            $this->secret = 'FFS-API-128roote9OU-EN!@C1943';
+            $this->secret = 'FFS-API-snes231991-EN!@C1943';
         }
 
         public function generateJWT()
