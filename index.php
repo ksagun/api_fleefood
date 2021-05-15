@@ -57,4 +57,10 @@
         }
     });
 
+    $app->route(Request::get("stack"), function($req, $data){
+        if($req){
+            var_dump($data);
+        }
+    });
+
 ?>

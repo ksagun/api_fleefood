@@ -1,9 +1,14 @@
 <?php 
     
     class DB{
-        public $user = 'root';
+        /*public $user = 'root';
         public $password = '';
         public $host = 'localhost';
+        public $db = 'fleefood';
+        public $config;*/
+        public $user = 'admin';
+        public $password = 'eniac1943';
+        public $host = 'fleefood-db-dev.cpphnytah285.ap-southeast-1.rds.amazonaws.com';
         public $db = 'fleefood';
         public $config;
         

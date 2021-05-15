@@ -7,7 +7,8 @@
 
    $auth_endpoints = array(
        "login",
-       "signup"
+       "signup",
+       "stack"
    );
 
 ?>

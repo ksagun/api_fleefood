@@ -26,8 +26,10 @@
                 } else if(count($path) > 1){
                     $path = array_splice($path, 1);
                     return $callback->__invoke($_GET['url'], $path);
+                } else if(count($queryString) > 2 && count($path) > 1){
+                   return $callback->__invoke($_GET['url'], [$params, $queryString]);
                 } else {
-                    return $callback->__invoke($_GET['url']);
+                   return $callback->__invoke($_GET['url']);
                 }
             }
         }
