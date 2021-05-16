@@ -19,6 +19,27 @@ class FoodStashModel extends DB{
         }
     }
 
+    public function submitEntry($data = null){
+        include "../api/services/food-stash/lib/queries.php";
+
+        $conn = $this->connection();
+        $stmt = $conn->prepare($INSERT_FOOD_STASH_ENTRY);
+        $stmt->bindParam(":stashid", $data->stashid);
+        $stmt->bindParam(":firstname", $data->firstname);
+        $stmt->bindParam(":lastname", $data->lastname);
+        $stmt->bindParam(":email", $data->email);
+        $stmt->bindParam(":contact", $data->contact);
+        $stmt->bindParam(":address1", $data->address1);
+        $stmt->bindParam(":address2", $data->address2);
+        $stmt->bindParam(":reason", $data->reason);
+
+        if($stmt->execute()){
+            return array("success" => true);
+        }else {
+            return array("success" => false);
+        }
+    }
+
    
 }
 

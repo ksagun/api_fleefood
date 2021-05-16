@@ -65,4 +65,11 @@
         }
     });
 
+    $app->route(Request::post("entry"), function($req, $data){
+        if($req){
+            $stash = new FoodStash();
+            $stash->submitEntry($data);
+        }
+    });
+
 ?>

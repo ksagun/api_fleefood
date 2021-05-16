@@ -8,7 +8,8 @@
    $auth_endpoints = array(
        "login",
        "signup",
-       "stash"
+       "stash",
+       "entry"
    );
 
 ?>

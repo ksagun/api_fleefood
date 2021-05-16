@@ -8,6 +8,20 @@ class FoodStash{
         $location = cinput::input($location);
         echo json_encode($stash->getFoodStash($location));
     }
+
+    public function submitEntry($data = null){
+        $stash = new FoodStashModel();
+        $data->food_stash_id = cinput::input($data->stashid);
+        $data->firstname = cinput::input($data->firstname);
+        $data->lastname = cinput::input($data->lastname);
+        $data->email = cinput::input($data->email);
+        $data->contact = cinput::input($data->contact);
+        $data->address1 = cinput::input($data->address1);
+        $data->address2 = cinput::input($data->address2);
+        $data->reason = cinput::input($data->reason);
+
+        echo json_encode($stash->submitEntry($data));
+    }
 }
 
 
