@@ -1,14 +1,13 @@
 <?php 
     require_once "../api/lib/db.php";
     
-    class UserModel{
+    class UserModel extends DB{
         
         public function getUser($id = null)
         {
             include "../api/services/user/lib/queries.php";
 
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_USER);
             $stmt->bindParam(":id", $id);
             $stmt->execute();
@@ -24,8 +23,7 @@
         { 
             include "../api/services/user/lib/queries.php";
 
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_USERS);
             $stmt->execute();
 
@@ -40,8 +38,7 @@
         {
             include "../api/services/user/lib/queries.php";
             
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($GET_EXISTING_USER);
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":email", $data->email);
@@ -54,12 +51,28 @@
             }
         }
 
+        public function getLoggedInUser($email = null)
+        {
+            include "../api/services/user/lib/queries.php";
+
+            $conn = $this->connection();
+            $stmt = $conn->prepare($GET_LOGGED_USER_BY_EMAIL);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0){
+                return array("success" => true, "response" => $stmt->fetchAll(PDO::FETCH_ASSOC));
+            } else {
+                return array("success" => false);
+            }
+
+        }
+
         public function createUser($data = null)
         {
             include "../api/services/user/lib/queries.php"; 
             
-            $db = new DB();
-            $conn = $db->connection();
+            $conn = $this->connection();
             $stmt = $conn->prepare($CREATE_USER);
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":password", $data->password);
@@ -72,7 +85,6 @@
                 return array("success" => false);
             }
         }
-
     }
 
 
