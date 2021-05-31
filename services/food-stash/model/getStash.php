@@ -40,6 +40,22 @@ class FoodStashModel extends DB{
         }
     }
 
+    public function getExistingStashEntry($data = null){
+        include "../api/services/food-stash/lib/queries.php";
+
+        $conn = $this->connection();
+        $stmt = $conn->prepare($GET_EXISTING_STASH_USER);
+        $stmt->bindParam(":contact", $data->contact);
+        $stmt->bindParam(":stashid", $data->stashid);
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
    
 }
 

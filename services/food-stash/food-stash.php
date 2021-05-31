@@ -20,7 +20,12 @@ class FoodStash{
         $data->address2 = cinput::input($data->address2);
         $data->reason = cinput::input($data->reason);
 
-        echo json_encode($stash->submitEntry($data));
+        if($stash->getExistingStashEntry($data)){
+            echo json_encode(array("success" => false, "msg"=> "You already submitted an entry, please comeback when there's a new stash!."));
+        } else{
+            echo json_encode($stash->submitEntry($data));
+        }
+        
     }
 }
 
