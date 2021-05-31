@@ -2,6 +2,7 @@
     include_once 'core/request.php';
     include_once 'core/router.php';
     include_once 'services/user/User.php';
+    include_once 'services/food-stash/food-stash.php';
     include_once 'core/jwt.php';
     include_once 'lib/endpoints.php';
     include_once 'classes/cinput.php';
@@ -57,9 +58,17 @@
         }
     });
 
-    $app->route(Request::get("stack"), function($req, $data){
+    $app->route(Request::get("stash"), function($req, $params){
         if($req){
-            var_dump($data);
+            $stash = new FoodStash();
+            $stash->foodStashController($params['location']);
+        }
+    });
+
+    $app->route(Request::post("entry"), function($req, $data){
+        if($req){
+            $stash = new FoodStash();
+            $stash->submitEntry($data);
         }
     });
 
