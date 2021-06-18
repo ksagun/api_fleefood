@@ -1,5 +1,7 @@
 <?php
-    $GET_FOOD_STASH_DATA = "SELECT * FROM food_stash fs
+    $GET_FOOD_STASH_DATA = "SELECT *, 
+                            (SELECT COUNT(*) FROM food_stash_user WHERE food_stash_id = fs.id) AS joined
+                            FROM food_stash fs
                             INNER JOIN food_stash_organizer fso ON fso.id = fs.organizer_id
                             WHERE fs.address_line_2  LIKE :location
                             ";
