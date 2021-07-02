@@ -1,16 +1,20 @@
 <?php 
     include_once 'core/request.php';
     include_once 'core/router.php';
-    include_once 'services/user/User.php';
-    include_once 'services/food-stash/food-stash.php';
+    
     include_once 'core/jwt.php';
     include_once 'lib/endpoints.php';
     include_once 'classes/cinput.php';
 
+    include_once 'services/user/User.php';
+    include_once 'services/food-stash/food-stash.php';
+    include_once 'services/restaurants/restaurants.php';
+
+
     //ALWAYS INCLUDE FOR CORS CONFIGURATION
     include_once 'lib/http-config.php';
 
-    if(!in_array(cinput::url($_GET['url']), $auth_endpoints)){
+    if(!in_array(cinput::url($_GET['url']), $auth_exception_endpoints)){
         $jwt = new JWTTokenizer(null);
     
         $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
@@ -69,6 +73,13 @@
         if($req){
             $stash = new FoodStash();
             $stash->submitEntry($data);
+        }
+    });
+
+    $app->route(Request::get("restaurants"), function($req, $params){
+        if($req && $params){
+            $list = new Restaurant();
+            $list->restaurantsController($params['location']);
         }
     });
 

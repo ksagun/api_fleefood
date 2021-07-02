@@ -5,11 +5,12 @@
        "users"
    );
 
-   $auth_endpoints = array(
+   $auth_exception_endpoints = array(
        "login",
        "signup",
        "stash",
-       "entry"
+       "entry",
+       "restaurants"
    );
 
 ?>

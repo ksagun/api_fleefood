@@ -14,11 +14,15 @@
                 //Get mulitiple path
                 $rawurl = parse_url($_SERVER['REQUEST_URI']);
                 $urlmap = $rawurl["path"];
+
                 //Removes /fleefood/api
                 $path = array_slice(explode('/',$urlmap), 3);
+
+                $params = null;
                 
                 if(count($queryString) > 2){
                     $query = $_GET;
+                    //Returns all query params in array
                     $params = array_slice($query, 1); 
                     return $callback->__invoke($_GET['url'], $params);
                 } else if($data != NULL){
