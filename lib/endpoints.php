@@ -1,16 +1,15 @@
-<?php 
+<?php
 
-   $endpoints = array(
-       "user",
-       "users"
-   );
+$endpoints = array(
+    "user",
+    "users"
+);
 
-   $auth_exception_endpoints = array(
-       "login",
-       "signup",
-       "stash",
-       "entry",
-       "restaurants"
-   );
-
-?>
+$auth_exception_endpoints = array(
+    "login",
+    "signup",
+    "stash",
+    "entry",
+    "restaurants",
+    "restaurant"
+);
