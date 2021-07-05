@@ -1,25 +1,22 @@
 <?php 
 
 class UUID{
-    private static $secret = "ffs-128-serve";
+    private $encryptMethod = 'AES-256-CBC';
+    private $secretKey = 'ffs-128-serve';
+    private $secretIV = 'ffs-127-order';
 
-    public static function encode($sid = null){
-        $s = base64_encode(self::$secret);
-        $id = base64_encode($sid);
-        $uuid = $s.'_'.$id;
-        $encoded = base64_encode($uuid);
-        return $encoded;
+    public function encode($sid = null){
+        $key = hash('sha256', $this->secretKey);
+        $iv = substr((hash('sha256', $this->secretIV)), 0, 16);
+        return base64_encode(openssl_encrypt($sid, $this->encryptMethod, $key, 0, $iv));;
     }
 
 
-    public static function decode($sid = null){
-        $encoded = base64_decode($sid);
-        $uuid = explode('_', $encoded);
-        $s = base64_decode($uuid[0]);
+    public function decode($sid = null){
+        $key = hash('sha256', $this->secretKey);
+        $iv = substr((hash('sha256', $this->secretIV)), 0, 16);
+        return openssl_decrypt(base64_decode($sid), $this->encryptMethod, $key, 0, $iv);
 
-        if($s == self::$secret){
-            return base64_decode($uuid[1]);
-        }
     }
 }
 
