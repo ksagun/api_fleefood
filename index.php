@@ -82,5 +82,3 @@
             $list->restaurantsController($params['location']);
         }
     });
-
-?>
