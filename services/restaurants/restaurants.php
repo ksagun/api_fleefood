@@ -21,9 +21,17 @@ class Restaurant
     }
     public function restaurantController($params = null)
     {
+        $uuid = new UUID();
         $list = new RestaurantModel();
         $params['location'] = cinput::input($params['location']);
-        $params['id'] = cinput::input($params['id']);
-        echo json_encode($list->getRestaurantMenu($params));
+        $params['id'] = $uuid->decode(cinput::input($params['id']));
+
+        $data = $list->getRestaurantMenu($params);
+
+        foreach ($data as &$row) {
+            $row['itemId'] = $uuid->encode($row['itemId']);
+        }
+
+        echo json_encode($data);
     }
 }
