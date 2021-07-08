@@ -83,8 +83,10 @@ $app->route(Request::get("restaurants"), function ($req, $params) {
     }
 });
 $app->route(Request::get("restaurant"), function ($req, $params) {
-    if ($req && $params) {
+    if ($req && isset($params['location']) && isset($params['id'])) {
         $list = new Restaurant();
         $list->restaurantController($params);
+    } else {
+        echo json_encode(array("success" => false, "error" => "Not Found"));
     }
 });
