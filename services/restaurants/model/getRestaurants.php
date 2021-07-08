@@ -35,7 +35,7 @@ class RestaurantModel extends DB
         if ($stmt->rowCount() > 0) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            return array("error" => "no data");
+            return array("success" => false, "error" => "No data");
         }
     }
 }
