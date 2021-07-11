@@ -1,11 +1,11 @@
-<?php 
+<?php
 include_once "model/getRestaurants.php";
 require_once "../api/classes/uuid.php";
 require_once "../api/classes/cinput.php";
 
 class Restaurant{
     public function restaurantsController($location = null){
-        echo $location;
+    
         $uuid = new UUID();
         $list = new RestaurantModel();
         $location = cinput::input($location);
@@ -13,13 +13,26 @@ class Restaurant{
 
         //Loop through data and encode id
         if($data["success"]){
-            foreach($data as &$row){
+            foreach($data['data'] as &$row){
                 $row['id'] = $uuid->encode($row['id']);
             }    
         }
        
+        echo json_encode($data["data"]);
+    }
+    public function restaurantController($params = null)
+    {
+        $uuid = new UUID();
+        $list = new RestaurantModel();
+        $params['location'] = cinput::input($params['location']);
+        $params['id'] = $uuid->decode(cinput::input($params['id']));
+
+        $data = $list->getRestaurantMenu($params);
+
+        foreach ($data as &$row) {
+            $row['itemId'] = $uuid->encode($row['itemId']);
+        }
+
         echo json_encode($data);
     }
-
 }
-?>

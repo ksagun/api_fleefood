@@ -1,4 +1,4 @@
-<?php 
+<?php
 $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT 
                                     id,
                                     business_name,
@@ -13,15 +13,16 @@ $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT
                                     FROM merchant 
                                     WHERE business_location LIKE :location';
 
-
-/*SELECT 
-m.business_name as 'restaurant',
-m.business_location as 'location',
-mp.product_name as 'itemName',
-mp.product_price as 'itemPrice',
-mp.in_stock as 'inStock',
-mp.is_available as 'isAvailable'
-FROM merchant m
-INNER JOIN merchant_products mp ON merchant_id = m.id
-INNER JOIN menu_category mc ON mc.id = mp.category_id*/
-?>
+$GET_RESTAURANT_MENU = 'SELECT 
+                        m.business_name as "restaurant",
+                        m.business_location as "location",
+                        mp.id as "itemId",
+                        mp.product_name as "itemName",
+                        mp.product_price as "itemPrice",
+                        mp.in_stock as "inStock",
+                        mp.is_available as "isAvailable",
+                        mc.category_name as "category"
+                        FROM merchant m
+                        INNER JOIN merchant_products mp ON merchant_id = m.id
+                        INNER JOIN menu_category mc ON mc.id = mp.category_id
+                        WHERE m.business_location = :location AND m.id = :id';
