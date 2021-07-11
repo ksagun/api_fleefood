@@ -15,11 +15,12 @@ class RestaurantModel extends DB
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return array("error" => "no data");
+            return array("data" => $stmt->fetchAll(PDO::FETCH_ASSOC), "success" => true);
+        }else{
+            return array("success" => false, "error"=> "No data");
         }
     }
+    
     public function getRestaurantMenu($params = null)
     {
         include "../api/services/restaurants/lib/queries.php";
