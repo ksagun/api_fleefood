@@ -11,5 +11,6 @@ $auth_exception_endpoints = array(
     "stash",
     "entry",
     "restaurants",
-    "restaurant"
+    "restaurant",
+    "customer"
 );
