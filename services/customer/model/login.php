@@ -19,7 +19,7 @@ class CustomerLoginModel extends DB
         $mail = new Mail();
 
         if ($stmt->rowCount() > 0) {
-            $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $customer = $stmt->fetch(PDO::FETCH_ASSOC);
             $success = $mail->send(
                 $customer['email'],
                 $CUSTOMER_OTP["subject"],
@@ -55,7 +55,7 @@ class CustomerLoginModel extends DB
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return array("success" => true, "response" => $stmt->fetchAll(PDO::FETCH_ASSOC));
+            return array("success" => true, "response" => $stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return array("success" => false, "error" => "OTP is incorrect.");
         }
@@ -71,7 +71,7 @@ class CustomerLoginModel extends DB
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return array("success" => true, "response" => $stmt->fetch(PDO::FETCH_OBJ));
+            return array("success" => true, "response" => $stmt->fetch(PDO::FETCH_ASSOC));
         } else {
             return array("success" => false, "error" => "OTP verification failed.");
         }
