@@ -1,10 +1,26 @@
 <?php
-$LOGIN = "UPDATE customers SET access_code = :otp WHERE email = :email";
-$SAVE_CUSTOMER_OTP = "UPDATE customers SET access_code = :otp WHERE email = :email";
-$VERIFY_OTP = "SELECT email,contact FROM customers WHERE email = :email AND access_code = :otp";
-$VERIFY_EMAIL = "SELECT email,contact FROM customers WHERE email = :email AND access_code = :otp";
-$GET_CUSTOMER = "SELECT email,contact FROM customers WHERE id = :id";
-$GET_CUSTOMERS = "SELECT email,contact FROM customers";
-$GET_EXISTING_CUSTOMER = "SELECT email FROM customers WHERE email = :email";
-$CREATE_CUSTOMER = "INSERT INTO customers(email,contact) VALUES(:email, :contact)";
-$GET_LOGGED_CUSTOMER_BY_EMAIL = "SELECT email, contact FROM customers WHERE email = :email";
+$GET_CUSTOMER           = "SELECT
+                            c.id,
+                            c.email,
+                            vc.is_verified
+                            FROM customers c
+                            INNER JOIN user_verification_code vc
+                            ON vc.customer_id = c.id
+                            WHERE c.email = :email";
+
+$SAVE_CUSTOMER_OTP         = "UPDATE customers
+                                SET access_code = :otp
+                                WHERE email = :email";
+
+$SAVE_CUSTOMER_CODE   = "INSERT INTO user_verification_code(customer_id, verification_code) VALUES(:customerId, :code)";
+
+$CREATE_CUSTOMER        = "INSERT INTO customers(email) VALUES(:email)";
+
+$VERIFY_CUSTOMER_OTP    = "SELECT email,contact FROM customers WHERE email = :email AND access_code = :otp";
+
+$VERIFY_CUSTOMER_EMAIL  = "UPDATE user_verification_code vc
+                            JOIN customer c
+                            ON vc.customer_id = c.id
+                            SET vc.is_verified = '1'
+                            WHERE c.email = :email
+                            AND vc.verification_code = :code";

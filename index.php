@@ -93,7 +93,14 @@ $app->route(Request::get("restaurant"), function ($req, $params) {
 
 $app->route(Request::post("customer"), function ($req, $data) {
     if ($req) {
-        $stash = new Customer();
-        $stash->loginController($data);
+        $customer = new Customer();
+        $customer->loginController($data);
+    }
+});
+
+$app->route(Request::post("verification"), function ($req, $data) {
+    if ($req) {
+        $customer = new Customer();
+        $customer->verifyController($data);
     }
 });
