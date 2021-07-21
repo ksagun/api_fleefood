@@ -17,11 +17,13 @@ class CustomerModel extends DB
         $stmt->bindParam(":email", $data->email);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount())
+            return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function create($data = null)
     {
         include "../api/services/customer/lib/queries.php";
+        include "../api/services/customer/lib/emails.php";
 
         try {
             $conn = $this->connection();
@@ -42,7 +44,21 @@ class CustomerModel extends DB
 
             $conn->commit();
 
-            return array("success" => true, "response" => 'OTP has been sent. Please check your email.');
+
+            if ($stmt->rowCount() > 0) {
+                $mail = new Mail();
+                $verificationURL = 'localhost/fleefood/api/verification?email=' . $data->email . '&code=' . $code;
+                $success = $mail->send(
+                    $data->email,
+                    $CUSTOMER_EMAIL["subject"],
+                    $CUSTOMER_EMAIL["html"] . '<a href="' . $verificationURL . '">' . $verificationURL . '</a>',
+                    $CUSTOMER_EMAIL["text"] . $verificationURL
+                );
+                if ($success) {
+                    return array("success" => true, "response" => 'Verification link has been sent. Please check your email.');
+                }
+                return array("success" => false, "error" => 'Error processing request');
+            }
         } catch (Exception $th) {
             $conn->rollBack();
             return array("success" => false, "error" => 'Error processing request');

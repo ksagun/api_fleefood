@@ -12,5 +12,6 @@ $auth_exception_endpoints = array(
     "entry",
     "restaurants",
     "restaurant",
-    "customer"
+    "customer",
+    "verification"
 );

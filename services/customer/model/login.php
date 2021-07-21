@@ -45,17 +45,18 @@ class CustomerLoginModel extends DB
         $stmt->bindParam(":code", $code);
         $stmt->execute();
 
-        $mail = new Mail();
 
         if ($stmt->rowCount() > 0) {
+            $mail = new Mail();
+            $verificationURL = 'localhost/fleefood/api/verification?email=' . $data->email . '&code=' . $code;
             $success = $mail->send(
                 $data->email,
-                $CUSTOMER_OTP["subject"],
-                $CUSTOMER_OTP["html"] . "<p><b>" . $otp . "</b></p>",
-                $CUSTOMER_OTP["text"] . $otp
+                $CUSTOMER_EMAIL["subject"],
+                $CUSTOMER_EMAIL["html"] . '<a href="' . $verificationURL . '">' . $verificationURL . '</a>',
+                $CUSTOMER_EMAIL["text"] . $verificationURL
             );
             if ($success) {
-                return array("success" => true, "response" => 'OTP has been sent. Please check your email.');
+                return array("success" => true, "response" => 'Verification link has been sent. Please check your email.');
             }
             return array("success" => false, "error" => 'Error processing request');
         } else {

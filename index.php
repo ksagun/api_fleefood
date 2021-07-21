@@ -98,9 +98,9 @@ $app->route(Request::post("customer"), function ($req, $data) {
     }
 });
 
-$app->route(Request::post("verification"), function ($req, $data) {
-    if ($req) {
+$app->route(Request::get("verification"), function ($req, $params) {
+    if ($req && $params) {
         $customer = new Customer();
-        $customer->verifyController($data);
+        $customer->verifyController($params);
     }
 });

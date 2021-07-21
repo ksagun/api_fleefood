@@ -20,16 +20,29 @@ class Customer
         }
         echo json_encode($response);
     }
-    public function verifyController($data = null)
+    public function verifyController($params = null)
     {
         $verification = new CustomerVerifyModel();
         $jwt = null;
 
-        if ($data->type == 'code') {
-            $response = $verification->verifyEmail();
+
+        $params['email'] = cinput::input($params['email']);
+
+        if (isset($params['code'])) {
+            $params['code'] = cinput::input($params['code']);
+            $params['type'] = 'code';
+        } else {
+            $params['otp'] = cinput::input($params['otp']);
+            $params['type'] = 'otp';
+        }
+
+
+
+        if ($params['type'] == 'code') {
+            $response = $verification->verifyEmail($params);
             echo json_encode($response);
-        } else if ($data->type == 'otp') {
-            $response = $verification->verifyOTP();
+        } else if ($params['type'] == 'otp') {
+            $response = $verification->verifyOTP($params);
             if ($response["success"] == true) {
                 $jwt = new JWTTokenizer(json_encode($response['response']));
                 echo json_encode(array("success" => $response['success'], "jwt" => $jwt->generateJWT()));

@@ -11,8 +11,8 @@ class CustomerVerifyModel extends DB
 
         $conn = $this->connection();
         $stmt = $conn->prepare($VERIFY_CUSTOMER_OTP);
-        $stmt->bindParam(":email", $data->email);
-        $stmt->bindParam(":otp", $data->otp);
+        $stmt->bindParam(":email", $data['email']);
+        $stmt->bindParam(":otp", $data['otp']);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -27,12 +27,12 @@ class CustomerVerifyModel extends DB
 
         $conn = $this->connection();
         $stmt = $conn->prepare($VERIFY_CUSTOMER_EMAIL);
-        $stmt->bindParam(":email", $data->email);
-        $stmt->bindParam(":code", $data->code);
+        $stmt->bindParam(":email", $data['email']);
+        $stmt->bindParam(":code", $data['code']);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return array("success" => true, "response" => "Email verification successful.");
+            return array("success" => true, "response" => "Email verification successful. You may log in now.");
         } else {
             return array("success" => false, "error" => "Email verification failed.");
         }
