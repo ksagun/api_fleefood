@@ -6,8 +6,9 @@ $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT
                                     business_email,
                                     business_contact,
                                     business_location,
-                                    address_line_1,
+                                    address_line_2,
                                     city,
+                                    province,
                                     municipality,
                                     zip_code
                                     FROM merchant 
