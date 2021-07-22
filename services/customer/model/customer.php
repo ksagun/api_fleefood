@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once "../api/lib/db.php";
 require_once "../api/core/mail.php";
 require_once "../api/classes/code.php";
+require_once "../api/classes/server.php";
 
 class CustomerModel extends DB
 {
@@ -37,7 +38,7 @@ class CustomerModel extends DB
 
             $code = code::generateVerificationCode();
 
-            $stmt = $conn->prepare($SAVE_CUSTOMER_CODE);
+            $stmt = $conn->prepare($CREATE_CUSTOMER_CODE);
             $stmt->bindParam(":customerId", $customerId);
             $stmt->bindParam(":code", $code);
             $stmt->execute();
@@ -47,7 +48,8 @@ class CustomerModel extends DB
 
             if ($stmt->rowCount() > 0) {
                 $mail = new Mail();
-                $verificationURL = 'localhost/fleefood/api/verification?email=' . $data->email . '&code=' . $code;
+
+                $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
                 $success = $mail->send(
                     $data->email,
                     $CUSTOMER_EMAIL["subject"],

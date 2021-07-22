@@ -2,6 +2,7 @@
 require_once "../api/lib/db.php";
 require_once "../api/core/mail.php";
 require_once "../api/classes/code.php";
+require_once "../api/classes/server.php";
 
 class CustomerLoginModel extends DB
 {
@@ -48,7 +49,7 @@ class CustomerLoginModel extends DB
 
         if ($stmt->rowCount() > 0) {
             $mail = new Mail();
-            $verificationURL = 'localhost/fleefood/api/verification?email=' . $data->email . '&code=' . $code;
+            $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
             $success = $mail->send(
                 $data->email,
                 $CUSTOMER_EMAIL["subject"],

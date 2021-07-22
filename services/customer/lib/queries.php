@@ -12,7 +12,13 @@ $SAVE_CUSTOMER_OTP         = "UPDATE customers
                                 SET access_code = :otp
                                 WHERE email = :email";
 
-$SAVE_CUSTOMER_CODE   = "INSERT INTO user_verification_code(customer_id, verification_code) VALUES(:customerId, :code)";
+$SAVE_CUSTOMER_CODE   = "UPDATE user_verification_code vc
+                            JOIN customers c
+                            ON vc.customer_id = c.id
+                            SET vc.verification_code = :code
+                            WHERE c.email = :email";
+
+$CREATE_CUSTOMER_CODE   = "INSERT INTO user_verification_code(customer_id, verification_code) VALUES(:customerId, :code)";
 
 $CREATE_CUSTOMER        = "INSERT INTO customers(email) VALUES(:email)";
 
@@ -21,6 +27,6 @@ $VERIFY_CUSTOMER_OTP    = "SELECT email,contact FROM customers WHERE email = :em
 $VERIFY_CUSTOMER_EMAIL  = "UPDATE user_verification_code vc
                             JOIN customers c
                             ON vc.customer_id = c.id
-                            SET vc.is_verified = '1'
+                            SET vc.is_verified = '1', vc.date_verified = curdate()    
                             WHERE c.email = :email
                             AND vc.verification_code = :code";

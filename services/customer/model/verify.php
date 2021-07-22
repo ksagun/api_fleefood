@@ -24,7 +24,6 @@ class CustomerVerifyModel extends DB
     public function verifyEmail($data = null)
     {
         include "../api/services/customer/lib/queries.php";
-
         $conn = $this->connection();
         $stmt = $conn->prepare($VERIFY_CUSTOMER_EMAIL);
         $stmt->bindParam(":email", $data['email']);

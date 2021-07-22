@@ -10,12 +10,16 @@ class Customer
 
         $customer = new CustomerModel();
         $login = new CustomerLoginModel();
+
         $response = $customer->get($data);
+        // Check if user is existing and verified
         if ($response && $response['is_verified'] == '1') {
             $response = $login->sendOTP($data);
         } else if ($response) {
+            // If not verified, will send verification link
             $response = $login->sendVerification($data);
         } else {
+            // If not existing, will save the email and send verification link
             $response = $customer->create($data);
         }
         echo json_encode($response);
@@ -35,8 +39,6 @@ class Customer
             $params['otp'] = cinput::input($params['otp']);
             $params['type'] = 'otp';
         }
-
-
 
         if ($params['type'] == 'code') {
             $response = $verification->verifyEmail($params);
