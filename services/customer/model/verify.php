@@ -16,7 +16,7 @@ class CustomerVerifyModel extends DB
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return array("success" => true, "response" => $stmt->fetch(PDO::FETCH_ASSOC));
+            return array("success" => true, "response" => $stmt->fetchAll(PDO::FETCH_ASSOC));
         } else {
             return array("success" => false, "error" => "OTP is incorrect.");
         }
