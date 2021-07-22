@@ -25,4 +25,4 @@ $GET_RESTAURANT_MENU = 'SELECT
                         FROM merchant m
                         INNER JOIN merchant_products mp ON merchant_id = m.id
                         INNER JOIN menu_category mc ON mc.id = mp.category_id
-                        WHERE m.business_location = :location AND m.id = :id';
+                        WHERE m.business_name = :name AND m.id = :id';

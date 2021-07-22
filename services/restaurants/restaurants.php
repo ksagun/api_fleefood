@@ -26,17 +26,17 @@ class Restaurant
     {
         $uuid = new UUID();
         $list = new RestaurantModel();
-        $params['location'] = cinput::input($params['location']);
+        $params['name'] = cinput::input($params['name']);
         $params['id'] = $uuid->decode(cinput::input($params['id']));
 
         $data = $list->getRestaurantMenu($params);
 
-        if ($data["success"]) {
+        if (isset($data["success"]) && $data['success']) {
             foreach ($data['data'] as &$row) {
-                $row['id'] = $uuid->encode($row['id']);
+                $row['itemId'] = $uuid->encode($row['itemId']);
             }
         }
 
-        echo json_encode($data["data"]);
+        echo json_encode($data['data']);
     }
 }
