@@ -88,7 +88,7 @@ $app->route(Request::get("restaurants"), function ($req, $params) {
 });
 
 $app->route(Request::get("restaurant"), function ($req, $params) {
-    if ($req && isset($params['location']) && isset($params['id'])) {
+    if ($req && isset($params['name']) && isset($params['id'])) {
         $list = new Restaurant();
         $list->restaurantController($params);
     } else {

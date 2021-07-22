@@ -24,16 +24,16 @@ class RestaurantModel extends DB
     {
         include "../api/services/restaurants/lib/queries.php";
 
-        $location = $params['location'];
+        $storeName = $params['name'];
         $id = $params['id'];
         $conn = $this->connection();
         $stmt = $conn->prepare($GET_RESTAURANT_MENU);
-        $stmt->bindParam(":location", $location);
+        $stmt->bindParam(":name", $storeName);
         $stmt->bindParam(":id", $id);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return array("data" => $stmt->fetchAll(PDO::FETCH_ASSOC), "success" => true);
         } else {
             return array("success" => false, "error" => "No data");
         }
