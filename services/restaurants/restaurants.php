@@ -74,8 +74,10 @@ class Restaurant{
 
         $data = $list->getRestaurantMenu($params);
 
-        foreach ($data as &$row) {
-            $row['itemId'] = $uuid->encode($row['itemId']);
+        if (isset($data["success"])) {
+            foreach ($data as &$row) {
+                $row['itemId'] = $uuid->encode($row['itemId']);
+            }
         }
 
         echo json_encode($data);
