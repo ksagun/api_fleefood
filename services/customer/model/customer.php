@@ -13,18 +13,21 @@ class CustomerModel extends DB
     {
         include "../api/services/customer/lib/queries.php";
 
-        $conn = $this->connection();
-        $stmt = $conn->prepare($GET_CUSTOMER);
-        $stmt->bindParam(":email", $data->email);
-        $stmt->execute();
+        try {
+            $conn = $this->connection();
+            $stmt = $conn->prepare($GET_CUSTOMER);
+            $stmt->bindParam(":email", $data->email);
+            $stmt->execute();
 
-        if ($stmt->rowCount())
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount())
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
     public function create($data = null)
     {
         include "../api/services/customer/lib/queries.php";
-        include "../api/services/customer/lib/emails.php";
 
         try {
             $conn = $this->connection();
@@ -36,18 +39,15 @@ class CustomerModel extends DB
 
             $customerId = $conn->lastInsertId();
 
-            $code = code::generateVerificationCode();
-
             $stmt = $conn->prepare($CREATE_CUSTOMER_CODE);
             $stmt->bindParam(":customerId", $customerId);
-            $stmt->bindParam(":code", $code);
+            $stmt->bindParam(":code", $data->code);
             $stmt->execute();
 
-            $conn->commit();
 
 
-            if ($stmt->rowCount() > 0) {
-                return $code;
+            if ($stmt->rowCount() > 0 && $conn->commit()) {
+                return true;
             }
             return false;
         } catch (Exception $th) {

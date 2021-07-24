@@ -101,7 +101,7 @@ $app->route(Request::post("customer"), function ($req, $data) {
 });
 
 $app->route(Request::get("verification"), function ($req, $params) {
-    if ($req && $params) {
+    if ($req && isset($params['email']) && (isset($params['otp']) || isset($params['code']))) {
         $customer = new Customer();
         $customer->verifyController($params);
     }
