@@ -6,10 +6,9 @@ require_once "../api/classes/server.php";
 
 class CustomerLoginModel extends DB
 {
-    public function sendOTP($data = null)
+    public function createOTP($data = null)
     {
         include "../api/services/customer/lib/queries.php";
-        include "../api/services/customer/lib/emails.php";
 
         $conn = $this->connection();
         $stmt = $conn->prepare($SAVE_CUSTOMER_OTP);
@@ -17,27 +16,16 @@ class CustomerLoginModel extends DB
         $stmt->bindParam(":email", $data->email);
         $stmt->bindParam(":otp", $otp);
         $stmt->execute();
-        $mail = new Mail();
 
         if ($stmt->rowCount() > 0) {
-            $success = $mail->send(
-                $data->email,
-                $CUSTOMER_OTP["subject"],
-                $CUSTOMER_OTP["html"] . "<p><b>" . $otp . "</b></p>",
-                $CUSTOMER_OTP["text"] . $otp
-            );
-            if ($success) {
-                return array("success" => true, "response" => 'OTP has been sent. Please check your email.');
-            }
-            return array("success" => false, "error" => 'Error processing request');
+            return  $otp;
         } else {
-            return array("success" => false, "error" => 'Error processing request');
+            return null;
         }
     }
-    public function sendVerification($data = null)
+    public function createCode($data = null)
     {
         include "../api/services/customer/lib/queries.php";
-        include "../api/services/customer/lib/emails.php";
 
         $conn = $this->connection();
         $stmt = $conn->prepare($SAVE_CUSTOMER_CODE);
@@ -48,20 +36,9 @@ class CustomerLoginModel extends DB
 
 
         if ($stmt->rowCount() > 0) {
-            $mail = new Mail();
-            $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
-            $success = $mail->send(
-                $data->email,
-                $CUSTOMER_EMAIL["subject"],
-                $CUSTOMER_EMAIL["html"] . '<a href="' . $verificationURL . '">' . $verificationURL . '</a>',
-                $CUSTOMER_EMAIL["text"] . $verificationURL
-            );
-            if ($success) {
-                return array("success" => true, "response" => 'Verification link has been sent. Please check your email.');
-            }
-            return array("success" => false, "error" => 'Error processing request');
+            return $code;
         } else {
-            return array("success" => false, "error" => 'Error processing request');
+            return null;
         }
     }
 }

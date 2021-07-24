@@ -47,23 +47,12 @@ class CustomerModel extends DB
 
 
             if ($stmt->rowCount() > 0) {
-                $mail = new Mail();
-
-                $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
-                $success = $mail->send(
-                    $data->email,
-                    $CUSTOMER_EMAIL["subject"],
-                    $CUSTOMER_EMAIL["html"] . '<a href="' . $verificationURL . '">' . $verificationURL . '</a>',
-                    $CUSTOMER_EMAIL["text"] . $verificationURL
-                );
-                if ($success) {
-                    return array("success" => true, "response" => 'Verification link has been sent. Please check your email.');
-                }
-                return array("success" => false, "error" => 'Error processing request');
+                return $code;
             }
+            return false;
         } catch (Exception $th) {
             $conn->rollBack();
-            return array("success" => false, "error" => 'Error processing request');
+            return false;
         }
     }
 }
