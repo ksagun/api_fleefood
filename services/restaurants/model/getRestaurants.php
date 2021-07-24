@@ -7,7 +7,6 @@ class RestaurantModel extends DB
     public function getRestaurantList($location = null)
     {
         include "../api/services/restaurants/lib/queries.php";
-
         $location = '%' . $location . '%';
         $conn = $this->connection();
         $stmt = $conn->prepare($GET_RESTAURANT_LIST_BY_LOCATION);

@@ -78,10 +78,15 @@ $app->route(Request::post("entry"), function ($req, $data) {
 
 $app->route(Request::get("restaurants"), function ($req, $params) {
     if ($req && $params) {
-        $list = new Restaurant();
-        $list->restaurantsController($params['location']);
+        if(isset($params['lng']) && isset($params['lat'])){
+            $list = new Restaurant();
+            $list->restaurantsController($params);
+        } else {
+            http_response_code(404);
+        }
     }
 });
+
 $app->route(Request::get("restaurant"), function ($req, $params) {
     if ($req && isset($params['name']) && isset($params['id'])) {
         $list = new Restaurant();

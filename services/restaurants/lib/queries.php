@@ -6,8 +6,9 @@ $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT
                                     business_email,
                                     business_contact,
                                     business_location,
-                                    address_line_1,
+                                    address_line_2,
                                     city,
+                                    province,
                                     municipality,
                                     zip_code
                                     FROM merchant 
@@ -16,6 +17,7 @@ $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT
 $GET_RESTAURANT_MENU = 'SELECT 
                         m.business_name as "restaurant",
                         m.business_location as "location",
+                        m.banner_image as "bannerImage",
                         mp.id as "itemId",
                         mp.product_name as "itemName",
                         mp.product_price as "itemPrice",
