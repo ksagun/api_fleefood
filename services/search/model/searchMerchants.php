@@ -15,7 +15,7 @@ class SearchMerchantsModel extends DB
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
-                $data = array_unique($stmt->fetchAll(PDO::FETCH_ASSOC));
+                $data = array_unique($stmt->fetchAll(PDO::FETCH_ASSOC), SORT_REGULAR);
                 return array("data" => $data, "success" => true);
             } else {
                 return array("success" => false, "error" => "No data");
