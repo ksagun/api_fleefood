@@ -10,6 +10,7 @@ include_once 'services/user/User.php';
 include_once 'services/food-stash/food-stash.php';
 include_once 'services/restaurants/restaurants.php';
 include_once 'services/customer/Customer.php';
+include_once 'services/search/search.php';
 
 
 //ALWAYS INCLUDE FOR CORS CONFIGURATION
@@ -104,5 +105,12 @@ $app->route(Request::get("verification"), function ($req, $params) {
     if ($req && $params) {
         $customer = new Customer();
         $customer->verifyController($params);
+    }
+});
+
+$app->route(Request::get("lookup"), function ($req, $params) {
+    if ($req && isset($params['location'])) {
+        $search = new Search();
+        $search->merchantsController(($params['location']));
     }
 });
