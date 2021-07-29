@@ -81,7 +81,7 @@ $app->route(Request::post("entry"), function ($req, $data) {
 
 $app->route(Request::get("restaurants"), function ($req, $params) {
     if ($req && $params) {
-        if(isset($params['lng']) && isset($params['lat'])){
+        if (isset($params['lng']) && isset($params['lat'])) {
             $list = new Restaurant();
             $list->restaurantsController($params);
         } else {
@@ -117,5 +117,7 @@ $app->route(Request::get("lookup"), function ($req, $params) {
     if ($req && isset($params['location'])) {
         $search = new Search();
         $search->merchantsController(($params['location']));
+    } else {
+        http_response_code(404);
     }
 });
