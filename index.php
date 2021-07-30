@@ -9,12 +9,14 @@ include_once 'classes/cinput.php';
 include_once 'services/user/User.php';
 include_once 'services/food-stash/food-stash.php';
 include_once 'services/restaurants/restaurants.php';
+include_once 'services/customer/Customer.php';
 
 
 //ALWAYS INCLUDE FOR CORS CONFIGURATION
 include_once 'lib/http-config.php';
 
 if (!in_array(cinput::url($_GET['url']), $auth_exception_endpoints)) {
+    var_dump($auth_exception_endpoints);
     $jwt = new JWTTokenizer(null);
 
     $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
@@ -93,5 +95,19 @@ $app->route(Request::get("restaurant"), function ($req, $params) {
         $list->restaurantController($params);
     } else {
         echo json_encode(array("success" => false, "error" => "Not Found"));
+    }
+});
+
+$app->route(Request::post("customer"), function ($req, $data) {
+    if ($req) {
+        $customer = new Customer();
+        $customer->loginController($data);
+    }
+});
+
+$app->route(Request::get("verification"), function ($req, $params) {
+    if ($req && isset($params['email']) && (isset($params['otp']) || isset($params['code']))) {
+        $customer = new Customer();
+        $customer->verifyController($params);
     }
 });
