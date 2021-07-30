@@ -81,7 +81,7 @@ $app->route(Request::post("entry"), function ($req, $data) {
 
 $app->route(Request::get("restaurants"), function ($req, $params) {
     if ($req && $params) {
-        if (isset($params['lng']) && isset($params['lat'])) {
+        if(isset($params['lng']) && isset($params['lat'])){
             $list = new Restaurant();
             $list->restaurantsController($params);
         } else {
@@ -107,7 +107,7 @@ $app->route(Request::post("customer"), function ($req, $data) {
 });
 
 $app->route(Request::get("verification"), function ($req, $params) {
-    if ($req && $params) {
+    if ($req && isset($params['email']) && (isset($params['otp']) || isset($params['code']))) {
         $customer = new Customer();
         $customer->verifyController($params);
     }

@@ -27,6 +27,6 @@ $VERIFY_CUSTOMER_OTP    = "SELECT email,contact FROM customers WHERE email = :em
 $VERIFY_CUSTOMER_EMAIL  = "UPDATE user_verification_code vc
                             JOIN customers c
                             ON vc.customer_id = c.id
-                            SET vc.is_verified = '1', vc.date_verified = curdate()    
+                            SET vc.is_verified = '1', vc.date_verified = UTC_TIMESTAMP()    
                             WHERE c.email = :email
                             AND vc.verification_code = :code";

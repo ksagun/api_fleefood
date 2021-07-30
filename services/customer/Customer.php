@@ -3,6 +3,7 @@ include_once "model/login.php";
 include_once "model/customer.php";
 include_once "model/verify.php";
 include_once "../api/core/mail.php";
+include_once "../api/classes/code.php";
 
 
 
@@ -18,10 +19,10 @@ class Customer
         $response = $customer->get($data);
         // Check if user is existing and verified
         if ($response && $response['is_verified'] == '1') {
-            $otp = $login->createOTP($data);
-            if ($otp) {
+            $otp = code::generateOTP();
+            $data->otp = $otp;
+            if ($login->saveOTP($data)) {
                 $mail = new Mail();
-
                 $success = $mail->send(
                     $data->email,
                     $CUSTOMER_OTP["subject"],
@@ -38,8 +39,9 @@ class Customer
             }
         } else if ($response) {
             // If not verified, will send verification link
-            $code = $login->createCode($data);
-            if ($code) {
+            $code = code::generateVerificationCode();
+            $data->code = $code;
+            if ($login->saveCode($data)) {
                 $mail = new Mail();
 
                 $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
@@ -59,8 +61,9 @@ class Customer
             }
         } else {
             // If not existing, will save the email and send verification link
-            $code = $customer->create($data);
-            if ($code) {
+            $code = code::generateVerificationCode();
+            $data->code = $code;
+            if ($customer->create($data)) {
                 $mail = new Mail();
                 $verificationURL = server::getURL() . '/verification?email=' . $data->email . '&code=' . $code;
                 $success = $mail->send(
@@ -84,7 +87,6 @@ class Customer
     {
         $verification = new CustomerVerifyModel();
         $jwt = null;
-
 
         $params['email'] = cinput::input($params['email']);
 
