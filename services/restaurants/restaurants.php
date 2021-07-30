@@ -5,6 +5,8 @@ require_once "../api/classes/cinput.php";
 require_once "../api/classes/gmaps.php";
 require_once "../api/classes/opstreetmaps.php";
 
+
+
 class Restaurant{
     public function restaurantsController($params = null){
         
@@ -60,7 +62,7 @@ class Restaurant{
                 echo $e->getMessage();
             }    
         }
-       
+
         echo json_encode($data["data"]);
     }
 

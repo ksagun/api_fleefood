@@ -15,6 +15,7 @@ $GET_RESTAURANT_LIST_BY_LOCATION = 'SELECT
                                     WHERE business_location LIKE :location';
 
 $GET_RESTAURANT_MENU = 'SELECT 
+                        mp.id,
                         m.business_name as "restaurant",
                         m.business_location as "location",
                         m.banner_image as "bannerImage",
