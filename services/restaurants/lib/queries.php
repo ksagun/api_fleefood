@@ -31,6 +31,11 @@ $GET_RESTAURANT_DETAILS = 'SELECT
                            WHERE m.id = :id AND 
                            m.business_name = :name';
 
+$GET_RESTAURANT_CATEGORY = 'SELECT 
+                            c.category_name
+                            FROM menu_category c 
+                            INNER JOIN merchat m ON m.id = c.merchant_id
+                            WHERE c.merchant_id = :id';
 
 $GET_RESTAURANT_MENU = 'SELECT 
                         mp.id as "itemId",
