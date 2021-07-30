@@ -38,6 +38,9 @@ $GET_RESTAURANT_CATEGORY = 'SELECT
                             WHERE c.merchant_id = :id';
 
 $GET_RESTAURANT_MENU = 'SELECT 
+                        m.business_name as "restaurant",
+                        m.business_location as "location",
+                        m.banner_image as "bannerImage",
                         mp.id as "itemId",
                         mp.product_name as "itemName",
                         mp.product_price as "itemPrice",

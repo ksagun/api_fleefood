@@ -6,10 +6,9 @@ require_once "../api/classes/gmaps.php";
 require_once "../api/classes/opstreetmaps.php";
 
 
-
 class Restaurant{
     public function restaurantsController($params = null){
-        
+      
         //$gmaps = new GMAPS('AIzaSyBPeOdJGsMZ6mgsNN5FGFGQdM0SA-Y6l0M');
         //$gmaps->reverseGeocode($location);
 
@@ -36,8 +35,7 @@ class Restaurant{
                         //Create new property for coordinates result
                         $row['coordinates'] = array("lng" => $result->features[0]->geometry->coordinates[0], "lat" => $result->features[0]->geometry->coordinates[1]);
                     }
-                }
-                
+                } 
                 array_push($locationArray, [$params['lng'], $params['lat']]);
     
                 foreach($data['data'] as &$row){
