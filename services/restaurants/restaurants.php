@@ -78,7 +78,11 @@ class Restaurant{
 
         if (isset($data["success"]) && $data['success']) {
             foreach ($data['data'] as &$row) {
-                $row['itemId'] = $uuid->encode($row['itemId']);
+                $row['id'] = $uuid->encode($row['id']);
+
+                foreach($row['menu'] as &$items){
+                    $items['itemId'] = $uuid->encode($items['itemId']);
+                }
             }
         }
 

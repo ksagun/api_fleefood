@@ -27,13 +27,26 @@ class RestaurantModel extends DB
         $storeName = $params['name'];
         $id = $params['id'];
         $conn = $this->connection();
-        $stmt = $conn->prepare($GET_RESTAURANT_MENU);
-        $stmt->bindParam(":name", $storeName);
+        $stmt = $conn->prepare($GET_RESTAURANT_DETAILS);
         $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":name", $storeName);
+        
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return array("data" => $stmt->fetchAll(PDO::FETCH_ASSOC), "success" => true);
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $menustmt = $conn->prepare($GET_RESTAURANT_MENU);
+            $menustmt->bindParam(":id", $id);
+            $menustmt->bindParam(":name", $storeName);
+            $menustmt->execute();
+
+            if($menustmt->rowCount() > 0){
+                foreach($rows as &$row){
+                    $row['menu'] = $menustmt->fetchAll(PDO::FETCH_ASSOC);
+                }
+            }
+           
+            return array("data" => $rows, "success" => true);
         } else {
             return array("success" => false, "error" => "No data");
         }
