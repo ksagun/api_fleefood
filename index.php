@@ -11,13 +11,13 @@ include_once 'services/food-stash/food-stash.php';
 include_once 'services/restaurants/restaurants.php';
 include_once 'services/customer/Customer.php';
 include_once 'services/search/search.php';
+include_once 'services/order/order.php';
 
 
 //ALWAYS INCLUDE FOR CORS CONFIGURATION
 include_once 'lib/http-config.php';
 
 if (!in_array(cinput::url($_GET['url']), $auth_exception_endpoints)) {
-    var_dump($auth_exception_endpoints);
     $jwt = new JWTTokenizer(null);
 
     $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
@@ -81,7 +81,7 @@ $app->route(Request::post("entry"), function ($req, $data) {
 
 $app->route(Request::get("restaurants"), function ($req, $params) {
     if ($req && $params) {
-        if(isset($params['lng']) && isset($params['lat'])){
+        if (isset($params['lng']) && isset($params['lat'])) {
             $list = new Restaurant();
             $list->restaurantsController($params);
         } else {
@@ -117,6 +117,24 @@ $app->route(Request::get("lookup"), function ($req, $params) {
     if ($req && isset($params['location'])) {
         $search = new Search();
         $search->merchantsController(($params['location']));
+    } else {
+        http_response_code(404);
+    }
+});
+
+$app->route(Request::post("order"), function ($req, $data) {
+    if ($req) {
+        $order = new Order();
+        $order->createOrderController($data);
+    } else {
+        http_response_code(404);
+    }
+});
+
+$app->route(Request::get("orders"), function ($req, $params) {
+    if ($req) {
+        $order = new Order();
+        $order->ordersController($params);
     } else {
         http_response_code(404);
     }
