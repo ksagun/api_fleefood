@@ -4,10 +4,10 @@ require_once "../api/classes/cinput.php";
 
 class Order
 {
-    public function ordersController($params = null)
+    public function createOrderController($data = null)
     {
     }
-    public function createOrderController($data = null)
+    public function ordersController($params = null)
     {
     }
 }
