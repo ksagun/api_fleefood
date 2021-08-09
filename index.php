@@ -16,7 +16,7 @@ include_once 'services/customer/Customer.php';
 include_once 'lib/http-config.php';
 
 if (!in_array(cinput::url($_GET['url']), $auth_exception_endpoints)) {
-    var_dump($auth_exception_endpoints);
+    //var_dump($auth_exception_endpoints);
     $jwt = new JWTTokenizer(null);
 
     $response = $jwt->validateJWT($_SERVER['HTTP_AUTHORIZATION']);
@@ -80,7 +80,7 @@ $app->route(Request::post("entry"), function ($req, $data) {
 
 $app->route(Request::get("restaurants"), function ($req, $params) {
     if ($req && $params) {
-        if(isset($params['lng']) && isset($params['lat'])){
+        if (isset($params['lng']) && isset($params['lat'])) {
             $list = new Restaurant();
             $list->restaurantsController($params);
         } else {
@@ -110,4 +110,8 @@ $app->route(Request::get("verification"), function ($req, $params) {
         $customer = new Customer();
         $customer->verifyController($params);
     }
+});
+
+$app->route(Request::get("test/login"), function ($req) {
+    var_dump($req);
 });
