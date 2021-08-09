@@ -1,8 +1,8 @@
 <?php
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
-     //header("Access-Control-Allow-Origin: api.fleefood.com");
-     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+     header("Access-Control-Allow-Origin: https://fleefood.com");
+     //header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
      header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
      header("Content-Type: application/json; charset=UTF-8");
      header('Access-Control-Allow-Credentials: true');
