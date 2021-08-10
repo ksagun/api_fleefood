@@ -19,9 +19,11 @@ class CustomerModel extends DB
             $stmt->bindParam(":email", $data->email);
             $stmt->execute();
 
-            if ($stmt->rowCount())
+            if ($stmt->rowCount()) {
                 return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (\Throwable $th) {
+            }
+            return null;
+        } catch (\Exception $th) {
             return null;
         }
     }
@@ -50,7 +52,7 @@ class CustomerModel extends DB
                 return true;
             }
             return false;
-        } catch (Exception $th) {
+        } catch (\Exception $th) {
             $conn->rollBack();
             return false;
         }

@@ -20,7 +20,7 @@ class CustomerVerifyModel extends DB
             } else {
                 return array("success" => false, "error" => "OTP is incorrect.");
             }
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return array("success" => false, "error" => "Error processing request.");
         }
     }
@@ -40,7 +40,7 @@ class CustomerVerifyModel extends DB
             } else {
                 return array("success" => false, "error" => "Invalid verification link.");
             }
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return array("success" => false, "error" => "Error processing request.");
         }
     }

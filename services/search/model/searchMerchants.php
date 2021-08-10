@@ -20,7 +20,7 @@ class SearchMerchantsModel extends DB
             } else {
                 return array("success" => false, "error" => "No data");
             }
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return array("success" => false, "error" => "No data");
         }
     }

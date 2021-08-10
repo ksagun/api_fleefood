@@ -22,7 +22,7 @@ class CustomerLoginModel extends DB
             } else {
                 return false;
             }
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return false;
         }
     }
@@ -43,7 +43,7 @@ class CustomerLoginModel extends DB
             } else {
                 return false;
             }
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return false;
         }
     }
